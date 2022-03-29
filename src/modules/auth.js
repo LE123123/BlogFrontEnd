@@ -15,6 +15,8 @@ const [REGISTER, REGISTER_SUCCESS, REGISTER_FAILURE] =
 const [LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE] =
 	createRequestActionTypes('auth/LOGIN');
 
+const INIT_AUTH = 'auth/INITIALIZE_AUTH';
+
 export const changeField = createAction(
 	CHANGE_FIELD,
 	({ form, key, value }) => ({
@@ -35,6 +37,8 @@ export const login = createAction(LOGIN, ({ username, password }) => ({
 	username,
 	password,
 }));
+
+export const initAuth = createAction(INIT_AUTH);
 
 // 사가 생성
 const registerSaga = createRequestSaga(REGISTER, authAPI.register);
@@ -86,6 +90,10 @@ const auth = handleActions(
 		[LOGIN_FAILURE]: (state, { payload: error }) => ({
 			...state,
 			authError: error,
+		}),
+		[INIT_AUTH]: (state) => ({
+			...state,
+			auth: null,
 		}),
 	},
 	initialState,
